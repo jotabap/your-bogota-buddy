@@ -1,11 +1,442 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Welcome />
+	<main>
+		<section class="hero">
+			<div class="hero-content">
+				<div class="hero-copy">
+				<p class="eyebrow">YOUR BOGOTÁ BUDDY</p>
+
+				<h1>Come as a traveler.<br />Leave with a friend.</h1>
+
+				<p class="hero-description">
+					I'm John, your Bogotá Buddy. I'll help you discover the city,
+					feel comfortable, and make the most of your time here.
+				</p>
+
+				<a class="cta" href="https://wa.me/">Meet your Bogotá Buddy</a>
+			</div>
+			<div class="hero-image">
+			<img
+				src="/images/hero-placeholder.jpg"
+				alt="Exploring Bogotá with a local friend"
+			/>
+		   </div>
+	    </div>
+		</section>
+		<section class="experiences">
+	<div class="section-heading">
+		<p class="eyebrow">CHOOSE YOUR EXPERIENCE</p>
+
+		<h2>More than a tour. More like having a friend in Bogotá.</h2>
+
+		<p>
+			Choose the time that works for you. We'll take care of the rest and
+			adapt the experience to what you want to discover.
+		</p>
+	</div>
+
+	<div class="experience-grid">
+		<article class="experience-card">
+			<div class="experience-icon country-icon"></div>
+
+			<h3>4-Hour Buddy</h3>
+
+			<p class="experience-description">
+				A few hours with your local Bogotá Buddy.
+			</p>
+
+			<div class="experience-pricing">
+				<div>
+					<strong>US$65</strong>
+					<span>1–2 people</span>
+				</div>
+
+				<div>
+					<strong>US$90</strong>
+					<span>3–4 people</span>
+				</div>
+			</div>
+
+			<p class="included">Transportation included</p>
+
+			<a class="experience-cta" href="https://wa.me/">
+				Choose this experience
+			</a>
+		</article>
+
+		<article class="experience-card featured">
+			<div class="experience-icon country-icon"></div>
+
+			<h3>8-Hour Buddy</h3>
+
+			<p class="experience-description">
+				Your Buddy for the day.
+			</p>
+
+			<div class="experience-pricing">
+				<div>
+					<strong>US$109</strong>
+					<span>1–2 people</span>
+				</div>
+
+				<div>
+					<strong>US$160</strong>
+					<span>3–4 people</span>
+				</div>
+			</div>
+
+			<p class="included">Transportation included</p>
+
+			<a class="experience-cta" href="https://wa.me/">
+				Choose this experience
+			</a>
+		</article>
+
+		<article class="experience-card">
+			<div class="experience-icon country-icon"></div>
+
+			<h3>Day Trip</h3>
+
+			<p class="experience-description">
+				Escape Bogotá and explore beyond the city with your Buddy.
+			</p>
+
+			<div class="custom-price">
+				<strong>Custom price</strong>
+				<span>Up to 4 people</span>
+			</div>
+
+			<p class="included">Transportation included</p>
+
+			<a class="experience-cta" href="https://wa.me/">
+				Let's plan your day
+			</a>
+		</article>
+	</div>
+</section>
+<section class="buddy-section">
+	<div class="buddy-content">
+		<div class="section-heading">
+			<p class="eyebrow">MORE THAN A TOUR</p>
+
+			<h2>You're not just booking a tour. You're getting a local friend.</h2>
+
+			<p>
+				From the moment you arrive, I'm here to help you experience Bogotá
+				your way. Discover places you might never find on your own, get
+				around comfortably, ask questions, change plans when you feel like
+				it — and simply enjoy having someone local by your side.
+			</p>
+		</div>
+
+		<div class="buddy-values">
+			<article class="buddy-value">
+				<div class="value-icon">🤝</div>
+				<h3>A local connection</h3>
+				<p>
+					Someone you can talk to, ask questions, and feel comfortable
+					around.
+				</p>
+			</article>
+
+			<article class="buddy-value">
+				<div class="value-icon">🌃</div>
+				<h3>Local knowledge</h3>
+				<p>
+					I'll help you discover Bogotá beyond the usual tourist
+					checklist.
+				</p>
+			</article>
+
+			<article class="buddy-value">
+				<div class="value-icon">✨</div>
+				<h3>Your day, your way</h3>
+				<p>
+					Your interests come first. We plan together and stay flexible
+					throughout the day.
+				</p>
+			</article>
+		</div>
+	</div>
+</section>
+	</main>
 </Layout>
+<style>
+	.hero {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	padding: 3rem 5%;
+	background: #f5f1e8;
+}
+
+.hero-content {
+	width: min(1200px, 100%);
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 4rem;
+	align-items: center;
+}
+
+.hero-copy {
+	max-width: 600px;
+}
+
+.eyebrow {
+	margin: 0 0 1rem;
+	font-size: 0.85rem;
+	font-weight: 700;
+	letter-spacing: 0.15em;
+	color: var(--color-primary);
+}
+
+h1 {
+	margin: 0;
+	font-size: clamp(2.8rem, 5vw, 5rem);
+	line-height: 1.05;
+	letter-spacing: -0.04em;
+}
+
+.hero-description {
+	max-width: 560px;
+	margin: 2rem 0;
+	font-size: 1.2rem;
+	color: var(--color-muted);
+}
+
+.cta {
+	display: inline-block;
+	padding: 1rem 1.5rem;
+	border-radius: 999px;
+	background: var(--color-primary);
+	color: white;
+	text-decoration: none;
+	font-weight: 700;
+}
+
+.cta:hover {
+	background: var(--color-primary-dark);
+}
+
+.hero-image {
+	width: 100%;
+	aspect-ratio: 4 / 5;
+	overflow: hidden;
+	border-radius: 2rem;
+}
+
+.hero-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+@media (max-width: 768px) {
+	.hero {
+		padding: 4rem 1.5rem;
+	}
+
+	.hero-content {
+		grid-template-columns: 1fr;
+		gap: 3rem;
+	}
+
+	.hero-image {
+		aspect-ratio: 4 / 3;
+	}
+}
+.experiences {
+	padding: 7rem 5%;
+	background: #ffffff;
+}
+
+.section-heading {
+	width: min(700px, 100%);
+	margin: 0 auto 4rem;
+	text-align: center;
+}
+
+.section-heading h2 {
+	margin: 0;
+	font-size: clamp(2rem, 4vw, 3.5rem);
+	line-height: 1.1;
+	letter-spacing: -0.03em;
+}
+
+.section-heading > p:last-child {
+	margin: 1.5rem auto 0;
+	max-width: 600px;
+	color: var(--color-muted);
+	font-size: 1.1rem;
+}
+
+.experience-grid {
+	width: min(1200px, 100%);
+	margin: 0 auto;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1.5rem;
+}
+
+.experience-card {
+	display: flex;
+	flex-direction: column;
+	padding: 2rem;
+	border: 1px solid #e5e7eb;
+	border-radius: 1.5rem;
+	background: #ffffff;
+}
+
+.experience-card.featured {
+	border: 2px solid var(--color-primary);
+}
+
+.experience-icon {
+	font-size: 2rem;
+	margin-bottom: 1rem;
+}
+
+.experience-card h3 {
+	margin: 0;
+	font-size: 1.7rem;
+}
+
+.experience-description {
+	min-height: 3.5rem;
+	margin: 0.75rem 0 2rem;
+	color: var(--color-muted);
+}
+
+.experience-pricing {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 1rem;
+	margin-bottom: 1.5rem;
+}
+
+.experience-pricing div,
+.custom-price {
+	display: flex;
+	flex-direction: column;
+}
+
+.experience-pricing strong,
+.custom-price strong {
+	font-size: 1.5rem;
+}
+
+.experience-pricing span,
+.custom-price span {
+	font-size: 0.9rem;
+	color: var(--color-muted);
+}
+
+.custom-price {
+	margin-bottom: 1.5rem;
+}
+
+.included {
+	margin: 0 0 1.5rem;
+	font-size: 0.9rem;
+	font-weight: 700;
+	color: var(--color-primary);
+}
+
+.experience-cta {
+	margin-top: auto;
+	padding: 0.9rem 1rem;
+	border-radius: 999px;
+	background: var(--color-primary);
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	font-weight: 700;
+}
+
+.experience-cta:hover {
+	background: var(--color-primary-dark);
+}
+
+@media (max-width: 900px) {
+	.experience-grid {
+		grid-template-columns: 1fr;
+		max-width: 600px;
+	}
+}
+
+@media (max-width: 768px) {
+	.experiences {
+		padding: 5rem 1.5rem;
+	}
+}
+.country-icon {
+	width: 42px;
+	height: 42px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	background: var(--color-primary);
+	color: white;
+	font-size: 0.75rem;
+	font-weight: 800;
+	letter-spacing: 0.05em;
+}
+.buddy-section {
+	padding: 7rem 5%;
+	background: #f5f1e8;
+}
+
+.buddy-content {
+	width: min(1200px, 100%);
+	margin: 0 auto;
+}
+
+.buddy-section .section-heading {
+	margin-bottom: 5rem;
+}
+
+.buddy-section .section-heading > p:last-child {
+	max-width: 750px;
+}
+
+.buddy-values {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 3rem;
+}
+
+.buddy-value {
+	text-align: center;
+}
+
+.value-icon {
+	margin-bottom: 1rem;
+	font-size: 2.2rem;
+}
+
+.buddy-value h3 {
+	margin: 0 0 0.75rem;
+	font-size: 1.4rem;
+}
+
+.buddy-value p {
+	margin: 0;
+	color: var(--color-muted);
+}
+
+@media (max-width: 768px) {
+	.buddy-section {
+		padding: 5rem 1.5rem;
+	}
+
+	.buddy-values {
+		grid-template-columns: 1fr;
+		gap: 3rem;
+	}
+}
+</style>
