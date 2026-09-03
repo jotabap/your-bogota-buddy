@@ -1,18 +1,36 @@
 ---
-import '../styles/global.css';
+const title = "Your Bogotá Buddy | Come as a traveler. Leave with a friend.";
+const description =
+  "Discover Bogotá with a local friend. Personalized experiences, local knowledge, and transportation included.";
+const siteUrl = "https://blue-hill-0f6e9ff1e.5.azurestaticapps.net";
 ---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
 
+    <title>{title}</title>
+
+    <meta name="description" content={description} />
+
+    <link rel="canonical" href={siteUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={siteUrl} />
+    <meta property="og:site_name" content="Your Bogotá Buddy" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <link rel="icon" href="/favicon.ico" />
+  </head>
+
+  <body>
+    <slot />
+  </body>
+</html>
