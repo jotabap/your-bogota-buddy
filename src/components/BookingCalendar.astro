@@ -1,0 +1,356 @@
+---
+---
+
+<div class="booking-calendar">
+  <div class="calendar-header">
+    <button class="month-button" id="prev-month" aria-label="Previous month">
+      ←
+    </button>
+
+    <h3 id="calendar-month"></h3>
+
+    <button class="month-button" id="next-month" aria-label="Next month">
+      →
+    </button>
+  </div>
+
+  <div class="calendar-weekdays">
+    <span>Mon</span>
+    <span>Tue</span>
+    <span>Wed</span>
+    <span>Thu</span>
+    <span>Fri</span>
+    <span>Sat</span>
+    <span>Sun</span>
+  </div>
+
+  <div class="calendar-days" id="calendar-days"></div>
+
+  <div class="time-selection" id="time-selection" hidden>
+  <p class="eyebrow">SELECTED DATE</p>
+
+  <h4 id="selected-date"></h4>
+
+  <a
+    class="whatsapp-button"
+    id="whatsapp-button"
+    href="#"
+    target="_blank"
+    rel="noopener noreferrer"
+    hidden
+  >
+    Chat on WhatsApp →
+  </a>
+</div>
+</div>
+
+<script>
+  const calendarMonth = document.querySelector("#calendar-month");
+  const calendarDays = document.querySelector("#calendar-days");
+  const previousButton = document.querySelector("#prev-month");
+  const nextButton = document.querySelector("#next-month");
+  const timeSelection = document.querySelector<HTMLElement>("#time-selection");
+  const selectedDate = document.querySelector("#selected-date");
+  const whatsappButton =
+  document.querySelector<HTMLAnchorElement>("#whatsapp-button");
+
+  let currentDate = new Date();
+
+
+  /*
+   * TEMPORARY AVAILABILITY
+   *
+   * This is only test data for now.
+   * Later we will replace this with real availability.
+   */
+  const availability: Record<string, boolean> = {
+  "2026-09-05": true,
+  "2026-09-06": true,
+  "2026-09-12": true,
+  "2026-09-13": true,
+  "2026-09-19": true,
+  "2026-09-20": true,
+};
+
+  function formatDate (date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+  }
+
+  function renderCalendar() {
+    if (!calendarMonth || !calendarDays) return;
+
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth();
+
+    calendarMonth.textContent = new Intl.DateTimeFormat("en-US", {
+      month: "long",
+      year: "numeric",
+    }).format(currentDate);
+
+    calendarDays.innerHTML = "";
+
+    const firstDay = new Date(year, month, 1);
+
+    // Convert Sunday = 0 into Monday = 0
+    const startingDay = (firstDay.getDay() + 6) % 7;
+
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    for (let i = 0; i < startingDay; i++) {
+      const emptyDay = document.createElement("div");
+      emptyDay.className = "calendar-day empty";
+      calendarDays.appendChild(emptyDay);
+    }
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const date = new Date(year, month, day);
+      const dateKey = formatDate(date);
+
+      const button = document.createElement("button");
+
+      button.className = "calendar-day";
+      button.textContent = String(day);
+
+      if (availability[dateKey]) {
+        button.classList.add("available");
+
+        button.addEventListener("click", () => {
+          selectDay(date, dateKey);
+        });
+      } else {
+        button.disabled = true;
+      }
+
+      calendarDays.appendChild(button);
+    }
+  }
+
+  function selectDay(date: Date, dateKey: string): void {   
+
+    document
+      .querySelectorAll(".calendar-day.selected")
+      .forEach((day) => day.classList.remove("selected"));
+
+    const buttons = document.querySelectorAll(".calendar-day.available");
+
+    buttons.forEach((button) => {
+      if (button.textContent === String(date.getDate())) {
+        button.classList.add("selected");
+      }
+    });
+
+    if (!timeSelection || !selectedDate || !whatsappButton) return;
+
+    selectedDate.textContent = new Intl.DateTimeFormat("en-US", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+      year: "numeric",
+    }).format(date);
+
+    const message =
+  `Hi John! I'm interested in booking a Buddy for ` +
+  `${selectedDate.textContent}.`;
+
+        const whatsappNumber = "573002305509";
+
+        whatsappButton.href =
+        `https://wa.me/${whatsappNumber}?text=` +
+        encodeURIComponent(message);
+
+        whatsappButton.hidden = false;
+        timeSelection.hidden = false;
+    
+  }
+
+  previousButton?.addEventListener("click", () => {
+    currentDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() - 1,
+      1
+    );
+
+    renderCalendar();
+  });
+
+  nextButton?.addEventListener("click", () => {
+    currentDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth() + 1,
+      1
+    );
+
+    renderCalendar();
+  });
+
+  renderCalendar();
+</script>
+
+<style>
+  .booking-calendar {
+    width: min(700px, 100%);
+    margin: 0 auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 18px;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.08);
+  }
+
+  .calendar-header {
+    display: grid;
+    grid-template-columns: 44px 1fr 44px;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .calendar-header h3 {
+    margin: 0;
+    text-align: center;
+    font-size: 1.4rem;
+  }
+
+  .month-button {
+    width: 44px;
+    height: 44px;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    background: #fff;
+    cursor: pointer;
+    font-size: 1.2rem;
+  }
+
+  .month-button:hover {
+    background: #f5f1e8;
+  }
+
+  .calendar-weekdays,
+  .calendar-days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.5rem;
+  }
+
+  .calendar-weekdays {
+    margin-bottom: 0.75rem;
+  }
+
+  .calendar-weekdays span {
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-muted);
+    text-transform: uppercase;
+  }
+
+  .calendar-day {
+    aspect-ratio: 1;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    background: transparent;
+    color: #aaa;
+    font: inherit;
+  }
+
+  .calendar-day.available {
+    color: var(--color-text);
+    background: #f5f1e8;
+    cursor: pointer;
+    font-weight: 600;
+  }
+
+  .calendar-day.available:hover {
+    border-color: var(--color-primary);
+  }
+
+  .calendar-day.available.selected {
+    background: var(--color-primary);
+    color: #fff;
+  }
+
+  .calendar-day.empty {
+    visibility: hidden;
+  }
+
+  .calendar-day:disabled {
+    cursor: default;
+  }
+
+  .time-selection {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e5e1d8;
+  }
+
+  .time-selection h4 {
+    margin: 0.5rem 0 1.25rem;
+    font-size: 1.25rem;
+  }
+  .whatsapp-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: fit-content;
+  margin-top: 0.75rem;
+  padding: 0.9rem 1.35rem;
+  border: 1px solid #252a27;
+  border-radius: 999px;
+  background: #252a27;
+  color: #fff;
+  font: inherit;
+  font-weight: 800;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.whatsapp-button:hover {
+  border-color: var(--color-primary-dark);
+  background: var(--color-primary-dark);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.whatsapp-button:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+.whatsapp-button[hidden] {
+  display: none;
+}
+ 
+ 
+
+  @media (max-width: 600px) {
+    .booking-calendar {
+      padding: 1.25rem;
+    }
+
+    .calendar-weekdays,
+    .calendar-days {
+      gap: 0.25rem;
+    }
+  }
+  .time-selection {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+  border-top: 1px solid #e5e1d8;
+}
+
+.time-selection h4 {
+  margin: 0.5rem 0 1.25rem;
+  color: var(--color-text);
+  font-size: 1.25rem;
+  line-height: 1.3;
+}
+</style>

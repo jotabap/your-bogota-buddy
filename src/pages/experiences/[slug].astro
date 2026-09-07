@@ -1,0 +1,772 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import BookingCalendar from "../../components/BookingCalendar.astro";
+export function getStaticPaths() {
+const experiences = {
+   "4-hour-buddy": {
+    title: "4-Hour Buddy",
+    tagline: "A few hours with your local Bogotá Buddy.",
+    intro:
+      "Spend a few focused hours exploring Bogotá with a local friend who knows the city, helps you get around, and adapts the experience to what you actually want to do. Because Bogotá is a big city and traffic can be unpredictable, we'll focus on places that make sense together — so you spend more time enjoying Bogotá and less time sitting in traffic.",
+    prices: [
+      ["1-2 people", "US$65"],
+      ["3-4 people", "US$90"],
+    ],
+    included: [
+      "Personalized Bogotá experience",
+      "Private transportation",
+      "Local recommendations and insider knowledge",
+      "Flexible itinerary",
+      "Available for 1-4 people",
+    ],
+    perfectFor: [
+      "First-time visitors with limited time",
+      "Travelers with a few hours to explore",
+      "Airport pickup or drop-off",
+      "Business travelers who need a Buddy to drive them around",
+      "Couples or friends",
+      "Anyone who wants a local connection",
+    ],
+  },
+
+  "8-hour-buddy": {
+    title: "8-Hour Buddy",
+    tagline: "Your Buddy for the day.",
+    intro:
+      "Spend the day exploring Bogotá with a local friend who knows the city, helps you get around, and adapts the experience to what you actually want to do.",
+    prices: [
+      ["1-2 people", "US$109"],
+      ["3-4 people", "US$160"],
+    ],
+    included: [
+      "A personalized Bogotá experience",
+      "Private transportation throughout the experience",
+      "Local recommendations and insider knowledge",
+      "Flexible itinerary",
+      "Pickup and drop-off",
+      "Available for 1-4 people",
+    ],
+    perfectFor: [
+      "First-time visitors",
+      "Couples or friends",
+      "Travelers who want a more personal experience",
+      "People who don't speak much Spanish",
+      "Business travelers who want a local Buddy to help them navigate Bogotá",
+      "Anyone who wants a local friend by their side",
+    ],
+  },
+
+  "day-trip": {
+    title: "Day Trip",
+    tagline: "Escape Bogotá and explore beyond the city.",
+    intro:
+      "Leave the city behind for a day and discover somewhere beyond Bogotá with your Buddy. The destination is customized around what you want to see and experience.",
+    prices: [["Up to 4 people", "Custom price"]],
+    included: [
+      "Customized destination",
+      "Private transportation",
+      "Flexible experience",
+      "Available for up to 4 people",
+      "Custom pricing",
+    ],
+    perfectFor: [
+      "Travelers with extra time in Bogotá",
+      "Couples or groups of friends",
+      "People looking for something beyond the city",
+      "Anyone who wants a customized day trip",
+    ],
+  },
+};
+
+return Object.entries(experiences).map(([slug, experience]) => ({
+    params: { slug },
+    props: { experience },
+  }));
+}
+
+const { experience } = Astro.props;
+
+const whatsappUrl =
+  "https://wa.me/?text=" +
+  encodeURIComponent(
+    `Hi John! I'm interested in the ${experience.title}.`
+  );
+---
+<Layout>
+  <main class="experience-page">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-inner">
+
+        <a class="back-link" href="/">← Back to experiences</a>
+
+        <p class="eyebrow">YOUR BOGOTÁ BUDDY</p>
+
+        <h1>{experience.title}</h1>
+
+        <p class="tagline">{experience.tagline}</p>
+
+        <p class="intro">{experience.intro}</p>
+
+        <div class="prices">
+          {experience.prices.map(([people, price]) => (
+            <div class="price">
+              <span>{people}</span>
+              <strong>{price}</strong>
+            </div>
+          ))}
+        </div>
+
+        <p class="transport">Transportation included</p>
+
+        <button
+        class="cta"
+        type="button"
+        data-book-experience
+        aria-expanded="false"
+        aria-controls="booking-calendar"
+      >
+        Book your experience →
+      </button>
+
+      </div>
+    </section>
+
+
+    <!-- INCLUDED -->
+    <section class="section">
+
+      <div class="section-heading">
+        <p class="eyebrow">WHAT'S INCLUDED</p>
+        <h2>Everything you need for a great day in Bogotá.</h2>
+      </div>
+
+      <div class="included-grid">
+        {experience.included.map((item) => (
+          <div class="included-item">
+            <span class="check">✓</span>
+            <span>{item}</span>
+          </div>
+        ))}
+      </div>
+
+    </section>
+
+
+    <!-- HOW IT WORKS -->
+    <section class="section">
+
+      <div class="section-heading">
+        <p class="eyebrow">HOW IT WORKS</p>
+        <h2>Your day starts before we even meet.</h2>
+      </div>
+
+      <div class="steps">
+
+        <article>
+          <span class="number">01</span>
+          <h3>Tell me about you</h3>
+          <p>
+            I'll ask about your interests, hobbies, food preferences, and what
+            you'd like to experience in Bogotá.
+          </p>
+        </article>
+
+        <article>
+          <span class="number">02</span>
+          <h3>We plan together</h3>
+          <p>
+            I'll put together a suggested plan based on your answers. Nothing
+            is set in stone — we'll adjust it until it feels right for you.
+          </p>
+        </article>
+
+        <article>
+          <span class="number">03</span>
+          <h3>I'll pick you up</h3>
+          <p>
+            On the day of the experience, I'll pick you up and we'll start
+            exploring Bogotá together.
+          </p>
+        </article>
+
+        <article>
+          <span class="number">04</span>
+          <h3>Enjoy the day</h3>
+          <p>
+            Visit the places that interest you, grab something to eat, have a
+            coffee, discover something unexpected, or change plans whenever
+            you want.
+          </p>
+        </article>
+
+      </div>
+
+    </section>
+
+
+    <!-- MORE THAN A TOUR -->
+    <section class="more-than-tour">
+
+      <div class="more-inner">
+
+        <div>
+          <p class="eyebrow">MORE THAN A TOUR</p>
+
+          <h2>
+            You're not just booking a tour. You're getting a local friend.
+          </h2>
+        </div>
+
+        <div class="more-copy">
+
+          <p>
+            You're not following a group or checking places off a list.
+          </p>
+
+          <p>
+            <strong>You're spending the day with someone local.</strong>
+          </p>
+
+          <p>
+            Ask questions. Get recommendations. Learn about Bogotá. Try
+            something unexpected. Change the plan.
+          </p>
+
+          <p>
+            I'm there to make your day easier, more comfortable, and more
+            enjoyable.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- PERFECT FOR -->
+    <section class="section">
+
+      <div class="section-heading">
+        <p class="eyebrow">PERFECT FOR</p>
+        <h2>Made for travelers who want more than a checklist.</h2>
+      </div>
+
+      <div class="perfect-grid">
+        {experience.perfectFor.map((item) => (
+          <div class="perfect-item">{item}</div>
+        ))}
+      </div>
+
+    </section>
+    <!-- MORE TIME -->
+    {experience.title === "4-Hour Buddy" && (
+      <section class="more-time">
+        <div class="more-time-inner">
+          <p class="eyebrow">WANT MORE TIME TO EXPLORE?</p>
+
+          <h2>Make a full day of it.</h2>
+
+          <p>
+            If you have more time in Bogotá, the 8-Hour Buddy gives us more freedom
+            to explore the city at a relaxed pace, without trying to squeeze
+            everything into a few hours.
+          </p>
+
+          <a class="cta" href="/experiences/8-hour-buddy">
+            Explore the 8-Hour Buddy →
+          </a>
+        </div>
+      </section>
+    )}
+    <!-- BOOKING CALENDAR -->
+     <section
+          class="booking-section"
+          id="booking-calendar"
+          aria-labelledby="booking-title"
+          hidden
+        >
+        <div class="booking-section-inner">
+          <p class="eyebrow">CHOOSE YOUR TIME</p>
+
+          <h2>When would you like to explore Bogotá?</h2>
+
+          <p>
+            Choose a day and time that works for you. We'll continue on WhatsApp to
+            plan the experience together.
+          </p>
+
+          <BookingCalendar />
+        </div>
+      </section>
+
+    <!-- WHATSAPP -->
+    <section class="after">
+
+      <div class="after-inner">
+
+        <p class="eyebrow">AND IT DOESN'T END HERE</p>
+
+        <h2>Your Buddy doesn't end when the day does.</h2>
+
+        <p>
+          After your experience, you'll still have me on WhatsApp. If you have
+          a question about Bogotá, need a recommendation, want to know where to
+          eat, or simply want to say hello — you're always welcome to reach out.
+        </p>
+
+       <button
+        class="cta"
+        type="button"
+        data-book-experience
+        aria-expanded="false"
+        aria-controls="booking-calendar"
+      >
+        Book your experience →
+      </button>
+
+      </div>
+
+    </section>
+
+  </main>
+</Layout>
+
+
+<style>
+
+  .experience-page {
+    background: #f5f1e8;
+    color: var(--color-text);
+  }
+
+
+  /* HERO */
+
+  .hero {
+    min-height: 88vh;
+    display: flex;
+    align-items: center;
+    padding: 3rem 1.5rem 6rem;
+  }
+
+  .hero-inner {
+    width: min(1120px, 100%);
+    margin: 0 auto;
+  }
+
+  .back-link {
+    display: inline-block;
+    margin-bottom: 5rem;
+    color: var(--color-muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  .back-link:hover {
+    color: var(--color-primary);
+  }
+
+  .eyebrow {
+    margin: 0 0 1rem;
+    color: var(--color-primary);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    max-width: 900px;
+    margin: 0 0 1rem;
+    font-size: clamp(3.4rem, 8vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -0.055em;
+  }
+
+  .tagline {
+    margin-bottom: 1.5rem;
+    color: var(--color-primary);
+    font-size: clamp(1.2rem, 2vw, 1.55rem);
+    font-weight: 700;
+  }
+
+  .intro {
+    max-width: 720px;
+    margin-bottom: 2.5rem;
+    color: var(--color-muted);
+    font-size: 1.15rem;
+    line-height: 1.75;
+  }
+
+
+  /* PRICES */
+
+  .prices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .price {
+    min-width: 170px;
+    padding: 1rem 1.25rem;
+    border: 1px solid #ddd6c8;
+    border-radius: 1rem;
+    background: rgba(255,255,255,0.72);
+  }
+
+  .price span {
+    display: block;
+    margin-bottom: 0.35rem;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+  }
+
+  .price strong {
+    font-size: 1.45rem;
+  }
+
+  .transport {
+    margin-bottom: 2rem;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+
+  /* BUTTON */
+
+  .cta {
+    display: inline-block;
+    padding: 1rem 1.6rem;
+    border-radius: 999px;
+    background: #252a27;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 800;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  .cta:hover {
+    background: var(--color-primary-dark);
+    transform: translateY(-2px);
+  }
+
+
+  /* GENERAL SECTIONS */
+
+  .section {
+    width: min(1120px, calc(100% - 3rem));
+    margin: 0 auto;
+    padding: 7rem 0;
+  }
+
+  .section-heading {
+    max-width: 760px;
+    margin-bottom: 3.5rem;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    line-height: 1.05;
+    letter-spacing: -0.045em;
+  }
+
+
+  /* INCLUDED */
+
+  .included-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .included-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-height: 90px;
+    padding: 1.25rem 1.5rem;
+    border-radius: 1rem;
+    background: #fff;
+    font-weight: 700;
+  }
+
+  .check {
+    display: grid;
+    flex: 0 0 auto;
+    width: 32px;
+    height: 32px;
+    place-items: center;
+    border-radius: 50%;
+    background: #e7efe6;
+    color: var(--color-primary);
+    font-weight: 900;
+  }
+
+
+  /* STEPS */
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+
+  .steps article {
+    padding-top: 1.5rem;
+    border-top: 2px solid #d9d1c2;
+  }
+
+  .number {
+    display: block;
+    margin-bottom: 2rem;
+    color: var(--color-primary);
+    font-size: 0.85rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+  }
+
+  .steps h3 {
+    margin: 0 0 0.8rem;
+    font-size: 1.25rem;
+  }
+
+  .steps p {
+    margin: 0;
+    color: var(--color-muted);
+    line-height: 1.7;
+  }
+
+
+  /* MORE THAN A TOUR */
+
+  .more-than-tour {
+    padding: 7rem 1.5rem;
+    background: #252a27;
+    color: #fff;
+  }
+
+  .more-inner {
+    width: min(1120px, 100%);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 5rem;
+  }
+
+  .more-than-tour .eyebrow {
+    color: rgba(255,255,255,0.7);
+  }
+
+  .more-copy {
+    max-width: 520px;
+    color: rgba(255,255,255,0.86);
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+
+  .more-copy p {
+    margin-bottom: 1.25rem;
+  }
+
+  .more-copy strong {
+    color: #fff;
+  }
+
+
+  /* PERFECT FOR */
+
+  .perfect-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .perfect-item {
+    padding: 1.4rem 1.5rem;
+    border: 1px solid #ddd6c8;
+    border-radius: 1rem;
+    font-weight: 700;
+  }
+
+
+  /* AFTER */
+
+  .after {
+    padding: 8rem 1.5rem;
+    background: #252a27;
+    color: #fff;
+    text-align: center;
+  }
+
+  .after-inner {
+    width: min(760px, 100%);
+    margin: 0 auto;
+  }
+
+  .after .eyebrow {
+    color: rgba(255,255,255,0.6);
+  }
+
+  .after h2 {
+    margin-bottom: 1.5rem;
+  }
+
+  .after p:not(.eyebrow) {
+    margin-bottom: 2.5rem;
+    color: rgba(255,255,255,0.78);
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+
+  .cta.light {
+    background: #252a27;
+    color: var(--color-text);
+  }
+
+  .cta.light:hover {
+    background: #f1f1f1;
+  }
+
+
+  /* RESPONSIVE */
+
+  @media (max-width: 900px) {
+
+    .steps {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .more-inner {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+  }
+
+
+  @media (max-width: 640px) {
+
+    .hero {
+      min-height: auto;
+      padding-top: 2rem;
+    }
+
+    .back-link {
+      margin-bottom: 3.5rem;
+    }
+
+    .included-grid,
+    .perfect-grid,
+    .steps {
+      grid-template-columns: 1fr;
+    }
+
+    .section {
+      padding: 5rem 0;
+    }
+
+    .prices {
+      flex-direction: column;
+    }
+
+    .price {
+      width: 100%;
+    }
+
+    .more-than-tour,
+    .after {
+      padding: 5rem 1.5rem;
+    }
+
+  }
+
+  .more-time {
+  padding: 6rem 1.5rem;
+  background: #e9e3d7;
+}
+
+.more-time-inner {
+  width: min(760px, 100%);
+  margin: 0 auto;
+}
+
+.more-time h2 {
+  margin-bottom: 1.25rem;
+}
+
+.more-time-inner > p:not(.eyebrow) {
+  max-width: 650px;
+  margin-bottom: 2rem;
+  color: var(--color-muted);
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+.booking-section {
+  padding: 7rem 1.5rem;
+  background: #f5f1e8;
+}
+
+.booking-section-inner {
+  width: min(900px, 100%);
+  margin: 0 auto;
+}
+
+.booking-section-inner > h2 {
+  max-width: 700px;
+  margin-bottom: 1rem;
+}
+
+.booking-section-inner > p:not(.eyebrow) {
+  max-width: 650px;
+  margin-bottom: 3rem;
+  color: var(--color-muted);
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+#booking-calendar {
+  scroll-margin-top: 2rem;
+}
+.booking-section[hidden] {
+  display: none;
+}
+</style>
+<script>
+  const bookButtons =
+    document.querySelectorAll<HTMLButtonElement>("[data-book-experience]");
+
+  const bookingCalendar =
+    document.querySelector<HTMLElement>("#booking-calendar");
+
+  const bookingTitle =
+    document.querySelector<HTMLElement>("#booking-title");
+
+  bookButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      if (!bookingCalendar) return;
+
+      bookingCalendar.hidden = false;
+
+      bookButtons.forEach((bookButton) => {
+        bookButton.setAttribute("aria-expanded", "true");
+      });
+
+      requestAnimationFrame(() => {
+        bookingCalendar.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+
+        bookingTitle?.focus({ preventScroll: true });
+      });
+    });
+  });
+</script>
