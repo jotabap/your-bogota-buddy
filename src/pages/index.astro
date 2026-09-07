@@ -6,27 +6,64 @@ import Layout from '../layouts/Layout.astro';
 <Layout>
 	<main>
 		<section class="hero">
-			<div class="hero-content">
-				<div class="hero-copy">
-				<p class="eyebrow">YOUR BOGOTÁ BUDDY</p>
+		<div class="hero-content">
+			<p class="eyebrow">YOUR BOGOTÁ BUDDY</p>
 
-				<h1>Come as a traveler.<br />Leave with a friend.</h1>
+			<h1>Come as a traveler.<br />Leave with a friend.</h1>
 
-				<p class="hero-description">
-					I'm John, your Bogotá Buddy. I'll help you discover the city,
-					feel comfortable, and make the most of your time here.
-				</p>
-				
-			</div>
-			<div class="hero-image">
+			<p class="hero-intro">
+			I'm John, your Bogotá Buddy. I'll help you discover the city,
+			feel comfortable, and make the most of your time here.
+			</p>
+
+			<a class="cta" href="#experiences">
+			Explore experiences →
+			</a>
+		</div>
+
+		<div class="hero-image">
+			<div class="hero-slides">
 			<img
-				src="/images/hero-placeholder.jpg"
-				alt="Exploring Bogotá with a local friend"
+				src="/images/hero-1.jpg"
+				alt="John and a traveler exploring Bogotá together"
+				class="hero-slide active"
 			/>
-		   </div>
-	    </div>
+
+			<img
+				src="/images/hero-2.jpg"
+				alt="Friends exploring Bogotá together"
+				class="hero-slide"
+			/>
+
+			<img
+				src="/images/hero-3.jpg"
+				alt="Friends relaxing together in Bogotá"
+				class="hero-slide"
+			/>
+			</div>
+
+			<div class="hero-dots" aria-label="Hero images">
+			<button
+				class="hero-dot active"
+				aria-label="Show first image"
+				data-slide="0"
+			></button>
+
+			<button
+				class="hero-dot"
+				aria-label="Show second image"
+				data-slide="1"
+			></button>
+
+			<button
+				class="hero-dot"
+				aria-label="Show third image"
+				data-slide="2"
+			></button>
+			</div>
+		</div>
 		</section>
-		<section class="experiences">
+		<section class="experiences" id="experiences">
 	<div class="section-heading">
 		<p class="eyebrow">CHOOSE YOUR EXPERIENCE</p>
 
@@ -166,24 +203,36 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 <style>
 	.hero {
-	min-height: 100vh;
-	display: flex;
-	align-items: center;
-	padding: 3rem 5%;
-	background: #f5f1e8;
+  min-height: 85vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 4rem;
+  padding: 5rem 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .hero-content {
-	width: min(1200px, 100%);
-	margin: 0 auto;
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	gap: 4rem;
-	align-items: center;
+  max-width: 600px;
 }
 
 .hero-copy {
 	max-width: 600px;
+}
+.hero h1 {
+  margin-bottom: 1.5rem;
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
+
+.hero-intro {
+  max-width: 520px;
+  margin-bottom: 2rem;
+  font-size: 1.15rem;
+  line-height: 1.8;
+  color: var(--color-muted);
 }
 
 .eyebrow {
@@ -223,16 +272,86 @@ h1 {
 }
 
 .hero-image {
-	width: 100%;
-	aspect-ratio: 4 / 5;
-	overflow: hidden;
-	border-radius: 2rem;
+	 position: relative;
+  min-height: 560px;
+  border-radius: 24px;
+  overflow: hidden;
 }
 
 .hero-image img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+}
+.hero-slides {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  opacity: 0;
+  transition: opacity 1.2s ease;
+}
+
+.hero-slide.active {
+  opacity: 1;
+}
+.hero-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 1.5rem;
+  transform: translateX(-50%);
+
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+}
+
+.hero-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+
+  border: 0;
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.55);
+
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
+}
+
+.hero-dot.active {
+  background: #fff;
+  transform: scale(1.25);
+}
+
+.hero-dot:hover {
+  background: #fff;
+}
+
+@media (max-width: 800px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    padding-top: 3rem;
+  }
+
+  .hero-image {
+    min-height: 420px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -439,4 +558,61 @@ h1 {
 		gap: 3rem;
 	}
 }
+:global(html) {
+  scroll-behavior: smooth;
+}
+
+#experiences {
+  scroll-margin-top: 2rem;
+}
 </style>
+<script>
+  const slides = document.querySelectorAll<HTMLElement>(".hero-slide");
+  const dots = document.querySelectorAll<HTMLButtonElement>(".hero-dot");
+  const heroImage = document.querySelector<HTMLElement>(".hero-image");
+
+  let currentSlide = 0;
+  let interval: number | undefined;
+
+  function showSlide(index: number): void {
+    slides.forEach((slide, i) => {
+      slide.classList.toggle("active", i === index);
+    });
+
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("active", i === index);
+    });
+
+    currentSlide = index;
+  }
+
+  function startSlideshow(): void {
+    stopSlideshow();
+
+    interval = window.setInterval(() => {
+      const nextSlide = (currentSlide + 1) % slides.length;
+      showSlide(nextSlide);
+    }, 6000);
+  }
+
+  function stopSlideshow(): void {
+    if (interval !== undefined) {
+      window.clearInterval(interval);
+      interval = undefined;
+    }
+  }
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener("click", () => {
+      showSlide(index);
+      startSlideshow();
+    });
+  });
+
+  heroImage?.addEventListener("mouseenter", stopSlideshow);
+  heroImage?.addEventListener("mouseleave", startSlideshow);
+
+  if (slides.length > 1) {
+    startSlideshow();
+  }
+</script>

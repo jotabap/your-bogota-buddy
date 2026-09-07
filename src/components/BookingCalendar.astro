@@ -63,14 +63,17 @@
    * This is only test data for now.
    * Later we will replace this with real availability.
    */
-  const availability: Record<string, boolean> = {
-  "2026-09-05": true,
-  "2026-09-06": true,
-  "2026-09-12": true,
-  "2026-09-13": true,
-  "2026-09-19": true,
-  "2026-09-20": true,
-};
+ function isAvailableDate(date: Date): boolean {
+  const dayOfWeek = date.getDay();
+  const dayOfMonth = date.getDate();
+
+  const isSaturday = dayOfWeek === 6;
+  const isSunday = dayOfWeek === 0;
+  const isOddFriday =
+    dayOfWeek === 5 && dayOfMonth % 2 !== 0;
+
+  return isSaturday || isSunday || isOddFriday;
+}
 
   function formatDate (date: Date): string {
     const year = date.getFullYear();
@@ -115,7 +118,7 @@
       button.className = "calendar-day";
       button.textContent = String(day);
 
-      if (availability[dateKey]) {
+      if (isAvailableDate(date)) {
         button.classList.add("available");
 
         button.addEventListener("click", () => {
